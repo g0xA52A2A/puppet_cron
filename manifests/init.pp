@@ -8,9 +8,12 @@ class cron
 
 (
 $cron_service = undef,
+$hiera_hash = flase,
 )
 
 {
+
+  validate_bool($hiera_hash)
 
   # Attempt to work out the cron service name, default to crond.
 

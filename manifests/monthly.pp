@@ -52,6 +52,9 @@ $purge = false,
   if $hiera_hash == true {
     $cron_jobs = hiera_hash('cron::monthly::jobs')
   }
+  elsif $cron::hiera_hash == true {
+    $cron_jobs = hiera_hash('cron::monthly::jobs')
+  }
   else {
     $cron_jobs = $jobs
   }
