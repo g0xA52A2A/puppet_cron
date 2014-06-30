@@ -31,14 +31,14 @@ $purge = false,
   # Validate the parameters passed to the module to fail quickly rather than
   # passing create_resources invalid options
 
-  validate_hash($jobs,$defaults)
+  validate_hash($jobs, $defaults)
   validate_bool($hiera_hash, $purge)
 
   # $cron_jobs is used as an interim as puppet does not allow us to
   # reassign variables
 
   if $hiera_hash == true {
-    $cron_jobs = hiera_hash('cron::jobs')
+    $cron_jobs = hiera_hash('cron::crontab::jobs')
   }
   else {
     $cron_jobs = $jobs
