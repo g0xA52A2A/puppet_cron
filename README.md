@@ -76,7 +76,7 @@ cron::daily::pruge: 'true'
 
 cron::daily::jobs: {
   once_a_day: {
-    contents: '/bin/echo "Today is $(/bin/date)"'
+    content: '/bin/echo "Today is $(/bin/date)"'
   }
 }
 ```
