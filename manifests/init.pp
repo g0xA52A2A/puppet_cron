@@ -7,8 +7,7 @@
 class cron
 
 (
-$cron_service = undef,
-$hiera_hash = flase,
+$hiera_hash = false,
 )
 
 {
@@ -25,7 +24,7 @@ $hiera_hash = flase,
 
   service { $cron_service :
     ensure  => running,
-    enabled => true,
+    enable  => true,
   }
 
 }
