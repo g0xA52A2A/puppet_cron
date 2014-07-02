@@ -57,7 +57,7 @@ Usage
 A basic example of adding some cron jobs in YAML.
 
 ```yaml
-# Add two cron jobs to /etc/crontab
+# Add two cron jobs to crontab
 
 cron::crontab::jobs: 
   first_job: 
