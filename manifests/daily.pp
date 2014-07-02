@@ -28,11 +28,6 @@ class cron::daily
 
 (
 $jobs = undef,
-$defaults = { user  => 'root',
-              group => 'root',
-              mode  => '0755',
-              require => File['/etc/cron.daily'],
-            },
 $hiera_hash = false,
 $purge = false,
 )
@@ -43,7 +38,6 @@ $purge = false,
   # passing create_resources invalid options.
   # Not checking $jobs as it may be hash or undef.
 
-  validate_hash($defaults)
   validate_bool($hiera_hash, $purge)
 
   # $cron_jobs is used as an interim as puppet does not allow us to
@@ -64,7 +58,7 @@ $purge = false,
   file { '/etc/cron.daily':
     ensure  => directory,
     source  => 'puppet:///modules/cron/daily/',
-    user    => 'root',
+    owner   => 'root',
     group   => 'root',
     purge   => $purge,
     recurse => true,
@@ -75,11 +69,26 @@ $purge = false,
   # Placing within if as $jobs may never be passed a value in which case we
   # should take no action.
 
-  if is_hash($jobs) == true {
-    create_resources(file, $cron_job, $defaults)
+  if is_hash($cron_jobs) == true {
+
+    # Need to use future parser here as referncing with $name when merged from
+    # other locations in the manifest would return the class 'cron::daily' as
+    # namevar as well as numerous other issues.
+
+    each($cron_jobs) | $index, $value | {
+      file { "/etc/cron.daily/${index}":
+        ensure  => present,
+        content => "${value[command]}\n",
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        require => File['/etc/cron.daily'],
+      }
+    }
   }
-  elsif $jobs != undef {
-    fail ('\$jobs was expected to be a hash or undef')
+  elsif $cron_jobs != undef {
+    $type = type($cron_jobs)
+    fail ("\$jobs was expected hash or undef, got ${cron_jobs} type:${type}")
   }
 
 }

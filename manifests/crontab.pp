@@ -21,7 +21,7 @@ class cron::crontab
 
 (
 $jobs = undef,
-$defaults = {ensure => enabled, user => root},
+$defaults = {ensure => present, user => root},
 $hiera_hash = false,
 $purge = false,
 )
