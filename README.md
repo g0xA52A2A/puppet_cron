@@ -23,11 +23,13 @@ root is the user to execute the jobs.
 
 ### hourly, daily, weekly and monthly classes
 
-These are similar to the crontab class but differ in that create_resources is
-taking the puppet file type for the `$jobs` and `$default` parameters. As such
-it should be passed the namevar and contents (rather than command) for `$jobs`.
-The `$defualts` parameter is set to have root own the file and ensure it is
-executable.
+These are similar to the crontab class but differ in that it is taking the
+puppet file type for the `$jobs`.
+To provide a consistant interface you simply need to specify the name of the job
+and the command to execute. This will likely be the same as jobs passed to the
+crontab class. See examples below.
+
+Note: Creating jobs via parameters for these classes requires `parser = future`.
 
 These classes also support pulling files from the files directory of the module
 itself on the puppet master. For example placing a file in `files/hourly` would
@@ -57,16 +59,14 @@ A basic example of adding some cron jobs in YAML.
 ```yaml
 # Add two cron jobs to /etc/crontab
 
-cron::crontab::jobs: {
-  first_job: {
-    command:  '/bin/echo foo'
+cron::crontab::jobs: 
+  first_job: 
+    command:  '/bin/echo "This is run as root every 12 hours"'
     hour:     '12'
-  }
-  second_job: {
-    command:  '/bin/echo bar'
+  second_job: 
+    command:  '/bin/echo "This is run as puppet every 12 hours"'
     hour:     '13'
-  }
-}
+    user:     'puppet'
 
 # Only allow puppet controlled jobs in /etc/cron.daily
 
@@ -74,11 +74,10 @@ cron::daily::pruge: 'true'
 
 # Add job to /etc/cron.daily/
 
-cron::daily::jobs: {
-  once_a_day: {
-    content: '/bin/echo "Today is $(/bin/date)"'
-  }
-}
+cron::daily::jobs: 
+  once_a_day: 
+    command: '/bin/echo "Today is $(/bin/date)"'
+
 ```
 
 Dependencies
