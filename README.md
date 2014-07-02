@@ -65,7 +65,7 @@ cron::crontab::jobs:
     hour:     '12'
   second_job: 
     command:  '/bin/echo "This is run as puppet every 12 hours"'
-    hour:     '13'
+    hour:     '12'
     user:     'puppet'
 
 # Only allow puppet controlled jobs in /etc/cron.daily
