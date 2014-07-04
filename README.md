@@ -25,7 +25,7 @@ root is the user to execute the jobs.
 
 These are similar to the crontab class but differ in that it is taking the
 puppet file type for the `$jobs`.
-To provide a consistant interface you simply need to specify the name of the job
+To provide a consistent interface you simply need to specify the name of the job
 and the command to execute. This will likely be the same as jobs passed to the
 crontab class. See examples below.
 
@@ -42,14 +42,16 @@ are used so cron jobs can be defined at multiple levels. This allows for a base
 set of cron jobs to be defined at a low level of the hierarchy and more specific
 cron jobs to be defined further up the hierarchy closer to what is likely more
 relevant definitions.
-This is definable in each of the classes. If defined in the main cron class as
-true it will take precedence over definitions in other classes.
+This is definable in each of the classes expect in the service class. If defined
+in the main cron class as true it will take precedence over definitions in other
+classes.
 
 ### purge
 
-All classes with the exception of the main cron class take a `$purge` parameter
+All classes with the exception of the service class take a `$purge` parameter
 which if set to true will cause puppet to remove any cron jobs that are not
-provided by puppet.
+provided by puppet. If defined in the main cron class as true it will take
+precedence over definitions in other classes.
 
 Usage
 -----

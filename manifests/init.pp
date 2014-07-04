@@ -7,11 +7,12 @@ class cron
 
 (
 $hiera_hash = false,
+$purge = false,
 )
 
 {
 
-  validate_bool($hiera_hash)
+  validate_bool($hiera_hash, $purge)
 
   include cron::service
   include cron::crontab

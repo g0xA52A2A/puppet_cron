@@ -43,14 +43,24 @@ $purge = false,
   # $cron_jobs is used as an interim as puppet does not allow us to
   # reassign variables.
 
-  if $hiera_hash == true {
+  if $cron::hiera_hash == true {
     $cron_jobs = hiera_hash('cron::weekly::jobs')
   }
-  elsif $cron::hiera_hash == true {
+  elsif $hiera_hash == true {
     $cron_jobs = hiera_hash('cron::weekly::jobs')
   }
   else {
     $cron_jobs = $jobs
+  }
+
+  # $cron_purge is used as an interim as puppet does not allow us to
+  # reassign variables
+
+  if $cron::purge == true {
+    $cron_purge = $cron::purge
+  }
+  else {
+    $cron_purge = $purge
   }
 
   # Sync any files provided in the files directory of this module.
@@ -60,7 +70,7 @@ $purge = false,
     source  => 'puppet:///modules/cron/weekly/',
     owner   => 'root',
     group   => 'root',
-    purge   => $purge,
+    purge   => $cron_purge,
     recurse => true,
     force   => true,
   }

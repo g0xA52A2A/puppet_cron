@@ -53,6 +53,16 @@ $purge = false,
     $cron_jobs = $jobs
   }
 
+  # $cron_purge is used as an interim as puppet does not allow us to
+  # reassign variables
+
+  if $cron::purge == true {
+    $cron_purge = $cron::purge
+  }
+  else {
+    $cron_purge = $purge
+  }
+
   # Sync any files provided in the files directory of this module.
 
   file { '/etc/cron.hourly':
@@ -60,7 +70,7 @@ $purge = false,
     source  => 'puppet:///modules/cron/hourly/',
     owner   => 'root',
     group   => 'root',
-    purge   => $purge,
+    purge   => $cron_purge,
     recurse => true,
     force   => true,
   }
