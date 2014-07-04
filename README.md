@@ -8,7 +8,9 @@ This is a generic cron module for puppet.
 
 #### init.pp
 
-This contains the main cron class and simply ensures that cron is running.
+This contains the main cron class. It can be passed `$hiera_hash` and `$purge`
+parameters which should both be booleans, see below for details.
+The other classes are also included from this so you can simply `include cron`.
 
 ### crontab class
 
