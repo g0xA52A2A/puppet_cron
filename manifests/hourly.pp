@@ -43,10 +43,10 @@ $purge = false,
   # $cron_jobs is used as an interim as puppet does not allow us to
   # reassign variables.
 
-  if $hiera_hash == true {
+  if $cron::hiera_hash == true {
     $cron_jobs = hiera_hash('cron::hourly::jobs')
   }
-  elsif $cron::hiera_hash == true {
+  elsif $hiera_hash == true {
     $cron_jobs = hiera_hash('cron::hourly::jobs')
   }
   else {
