@@ -31,7 +31,7 @@ $purge = false,
   # Validate the parameters passed to the module to fail quickly rather than
   # passing create_resources invalid options
 
-  validate_hash($jobs, $defaults)
+  validate_hash($defaults)
   validate_bool($hiera_hash, $purge)
 
   # $cron_jobs is used as an interim as puppet does not allow us to
@@ -57,7 +57,18 @@ $purge = false,
     $cron_purge = $purge
   }
 
-  create_resources(cron, $cron_jobs, $defaults)
+  # Using if as init.pp includes this but the user may not pass any parameters
+  # to this class for jobs. As such only create jobs is a hash is received. If
+  # not a hash or anything other than undef is received fail and print some
+  # useful output.
+
+  if is_hash($cron_jobs) == true {
+    create_resources(cron, $cron_jobs, $defaults)
+  }
+  elsif $cron_jobs != undef {
+    $type = type($cron_jobs)
+    fail ("\$jobs was expected hash or undef, got ${cron_jobs} type:${type}")
+  }
 
   resources { 'cron':
   purge => $cron_purge
