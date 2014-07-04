@@ -1,8 +1,7 @@
-# This is the cron class, it ensures cron is running.
+# This is the main cron class.
 #
-# Pass $cron_service the name of your cron daemon if it is not named crond and
-# you are not on a Debain based system. Please file an issue or pull request if
-# you have to do this.
+# $hiera_hash is taken as a parameter which if set to true will cause hiera to
+# lookup values for all hierachies for cron jobs passed as parameters.
 
 class cron
 
@@ -14,18 +13,12 @@ $hiera_hash = false,
 
   validate_bool($hiera_hash)
 
-  # Attempt to work out the cron service name, default to crond.
-
-  case $::osfamily {
-    'RedHat': { $cron_service = 'crond' }
-    'Debain': { $cron_service = 'cron' }
-    default:  { $cron_service = 'crond' }
-  }
-
-  service { $cron_service :
-    ensure  => running,
-    enable  => true,
-  }
+  include cron::service
+  include cron::crontab
+  include cron::hourly
+  include cron::daily
+  include cron::weekly
+  include cron::monthly
 
 }
 
