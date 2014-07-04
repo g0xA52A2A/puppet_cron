@@ -1,5 +1,5 @@
 name 'gbrown-cron'
-version '0.0.3'
+version '0.0.4'
 author 'George Brown'
 license 'MIT'
 summary 'Adds cron jobs from parameters'
