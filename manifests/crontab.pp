@@ -37,20 +37,30 @@ $purge = false,
   # $cron_jobs is used as an interim as puppet does not allow us to
   # reassign variables
 
-  if $hiera_hash == true {
+  if $cron::hiera_hash == true {
     $cron_jobs = hiera_hash('cron::crontab::jobs')
   }
-  elsif $cron::hiera_hash == true {
+  elsif $hiera_hash == true {
     $cron_jobs = hiera_hash('cron::crontab::jobs')
   }
   else {
     $cron_jobs = $jobs
   }
 
+  # $cron_purge is used as an interim as puppet does not allow us to
+  # reassign variables
+
+  if $cron::purge == true {
+    $cron_purge = $cron::purge
+  }
+  else {
+    $cron_purge = $purge
+  }
+
   create_resources(cron, $cron_jobs, $defaults)
 
   resources { 'cron':
-  purge => $purge
+  purge => $cron_purge
   }
 
 }
