@@ -16,10 +16,7 @@ $purge = false,
 
   include cron::service
   include cron::crontab
-  include cron::hourly
-  include cron::daily
-  include cron::weekly
-  include cron::monthly
+  include cron::interval
 
 }
 

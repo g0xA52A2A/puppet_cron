@@ -14,8 +14,8 @@
 # level and node or group specific jobs at a higher level. The default hiera
 # behaviour would only match the first entry in the 'closest' hierarchy.
 #
-# Purge is set to false by default, but if set to true only crontab entries from
-# puppet will be permitted on the system.
+# $purge is set to false by default, but if set to true only crontab entries
+# from puppet will be permitted on the system.
 
 class cron::crontab
 
