@@ -23,17 +23,14 @@ enables default attributes to be set once and applied for all puppet defined
 cron jobs. In this class this is set to ensure the jobs is enabled and that
 root is the user to execute the jobs.
 
-### hourly, daily, weekly and monthly classes
+### interval class
 
-These are similar to the crontab class but differ in that it is taking the
-puppet file type for the `$jobs`.
-To provide a consistent interface you simply need to specify the name of the job
-and the command to execute. This will likely be the same as jobs passed to the
-crontab class. See examples below.
+These are similar to the crontab class but differ in `$jobs` should only provide
+the contents of the job and the interval at which to run.
 
 Note: Creating jobs via parameters for these classes requires `parser = future`.
 
-These classes also support pulling files from the files directory of the module
+This class also supports pulling files from the files directory of the module
 itself on the puppet master. For example placing a file in `files/hourly` would
 result in the client picking up that file in `/etc/cron.hourly/`.
 
@@ -63,11 +60,11 @@ A basic example of adding some cron jobs in YAML.
 ```yaml
 # Add two cron jobs to crontab
 
-cron::crontab::jobs: 
-  first_job: 
+cron::crontab::jobs:
+  first_job:
     command:  '/bin/echo "This is run as root every 12 hours"'
     hour:     '12'
-  second_job: 
+  second_job:
     command:  '/bin/echo "This is run as puppet every 12 hours"'
     hour:     '12'
     user:     'puppet'
@@ -78,9 +75,10 @@ cron::daily::pruge: 'true'
 
 # Add job to /etc/cron.daily/
 
-cron::daily::jobs: 
-  once_a_day: 
-    command: '/bin/echo "Today is $(/bin/date)"'
+cron::interval::jobs:
+  once_a_day:
+    command:  '/bin/echo "Today is $(/bin/date)"'
+    interval: 'daily'
 
 ```
 
