@@ -69,10 +69,6 @@ cron::crontab::jobs:
     hour:     '12'
     user:     'puppet'
 
-# Only allow puppet controlled jobs in /etc/cron.daily
-
-cron::daily::pruge: 'true'
-
 # Add job to /etc/cron.daily/
 
 cron::interval::jobs:
@@ -80,6 +76,18 @@ cron::interval::jobs:
     command:  '/bin/echo "Today is $(/bin/date)"'
     interval: 'daily'
 
+# Only allow puppet crontrolled jobs anywhere on the system
+
+cron::purge: true
+
+# Only allow puppet controlled jobs in crontabs ( e.g. /var/spool/cron/$user)
+
+cron::crontab::pruge: true
+
+# Only allow puppet controlled jobs in the periodic cron directories such as
+# /etc/cron.hourly, /etc/cron.daily, /etc/cron.weekly and /etc/cron.monthly
+
+cron::interval::pruge: true
 ```
 
 Dependencies
