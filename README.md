@@ -63,10 +63,10 @@ A basic example of adding some cron jobs in YAML.
 cron::crontab::jobs:
   first_job:
     command:  '/bin/echo "This is run as root every 12 hours"'
-    hour:     '12'
+    hour:     '*/12'
   second_job:
     command:  '/bin/echo "This is run as puppet every 12 hours"'
-    hour:     '12'
+    hour:     '*/12'
     user:     'puppet'
 
 # Add job to /etc/cron.daily/
